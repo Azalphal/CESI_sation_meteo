@@ -1,0 +1,4 @@
+#ignore the environment variables (prevent leaks)
+env.py
+
+/copaigns
