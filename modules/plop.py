@@ -1,53 +1,43 @@
-def insert(type, value):
-  
+import mysql.connector
+
+from env import *
+
+db = mysql.connector.connect(host=DB_HOST,
+                             user=DB_USER,
+                             password=DB_PASSWORD,
+                             database=DB_DATABASE)
+
+# Creation d'un objet curseur permettant d'executer des requetes SQL
+cursor = db.cursor()
 
 
-# def post():
-#     '''
-#     '''
-    
-    # hire_start = datetime.date(1999, 1, 1)
-    # hire_end = datetime.date(1999, 12, 31)
+def create(table, temperature, humidite):
 
-    # cursor.execute(query, (hire_start, hire_end))
-    
-    # f' 
-    # INSERT INTO historique (type, date, value)
-    # VALUES (?, NOW(), ?);', [type, value])
-    # INSERT INTO table (temperature, humidite) VALUES ({temperature}, {humidite});"
+    query = f"""
+    CREATE TABLE IF NOT EXISTS {table} (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        temperature FLOAT,
+        humidite FLOAT
+    );
+    INSERT INTO {table} (temperature, humidite) VALUES ({temperature}, {humidite});
+    """
+    cursor.execute(query)
 
-def get_value():
-    ''' request body : {"id" : id, "key" : key} '''
 
-    item_id = request.form["id"]
-    key = request.form["key"]
+def read(table, item_id, key):
 
-    # sql request: get value of [key] from  item with id [item_id]
     query = f"SELECT {key} FROM {table} WHERE id = {item_id};"
-    #cursor.execute(query)
-
-    value = 0
-
-    return value
+    cursor.execute(query)
+    return 1 ############## return resultat
 
 
-@app.route('/', methods=['POST'])
-def post():
-    ''' request body : {"temperature" : tvalue, "humidite" : hvalue} '''
+def update(table, item_id, key, value):
 
-    temperature = request.form["temperature"]
-    humidite = request.form["humidite"]
-
-    query = f"INSERT INTO table (temperature, humidite) VALUES ({temperature}, {humidite});"
-    # (id should auto increment)
-    #cursor.execute(query)
+    query = f"UPDATE {table} SET {key} = {value} WHERE id = {item_id};"
+    cursor.execute(query)
 
 
-@app.route('/', methods=['DELETE'])
-def delete():
-    ''' request body : {"id" : id} '''
+def delete(table, item_id):
 
-    item_id = request.form["id"]
-    # sql request: remove item with id [item_id] from table
     query = f"DELETE FROM {table} WHERE id = {item_id};"
-    #cursor.execute(query)
+    cursor.execute(query)

@@ -1,52 +1,41 @@
-from flask import Flask, request, jsonify
-from env import *
-from modules import plop
+from flask import Flask, request
 
-import mysql.connector
-import json
+from modules import plop
 
 app = Flask(__name__)
 
-# Identifiants de connections pour la BDD
-db = mysql.connector.connect(host=DB_HOST,
-                             user=DB_USER,
-                             password=DB_PASSWORD,
-                             database=DB_DATABASE)
 
-# Creation d'un objet curseur permettant d'executer des requetes SQL
-cursor = db.cursor()
+@app.route('/', methods=['POST', 'GET', 'PUT', 'DELETE'])
+def query():
 
-# example data: from get request / for post request #########test
-data = {"id": "1234", "temperature": "25.665", "humidite": "1.626"}
+    match request.method:
+        case 'POST':
 
+            temperature = request.form.get('temperature')
+            humidite = request.form.get('humidite')
 
-@app.route('/', methods=['GET'])
-# @ =décorateur de fct, endpoint api(url)
-def get():
-    '''request body : {"id" : id, "key" : key} '''
-    
-    
-    plop.read(test, 5, 10)
-    
+            plop.create(DB_TABLE, temperature, humidite)
 
+        case 'GET':
 
-@app.route('/', methods=['POST'])
-def post():
-    ''' request body : {"temperature" : tvalue, "humidite" : hvalue} '''
+            item_id = request.form.get('item_id')
+            key = request.form.get('key')
 
-    temperature = request.form["temperature"]
-    humidite = request.form["humidite"]
+            return plop.read(DB_TABLE, item_id, key)
 
-    # f"INSERT INTO table (temperature, humidite) VALUES ({temperature}, {humidite});"
-    # (id should auto increment)
+        case 'PUT':
 
+            item_id = request.form.get('item_id')
+            key = request.form.get('key')
+            value = request.form.get('value')
 
-@app.route('/', methods=['DELETE'])
-def delete():
-    ''' request body : {"id" : id} '''
+            plop.update(DB_TABLE, item_id, key, value)
 
-    item_id = request.form["id"]
-    # sql request: remove item with id [item_id] from table
+        case 'DELETE':
+
+            item_id = request.form.get('item_id')
+
+            plop.delete(DB_TABLE, item_id)
 
 
 if __name__ == "__main__":
