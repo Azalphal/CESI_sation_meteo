@@ -1,5 +1,4 @@
 # CESI_station_meteo
-<<<<<<< HEAD
 
 Projet de station météo demandé par l'école CESI.
 
@@ -8,5 +7,5 @@ Projet de station météo demandé par l'école CESI.
 * Sabrina TALBI
 * Ilan REDON
 * Jules ORSATTI
-=======
->>>>>>> a857be196a17314b9bbb1aee56bda3d56399fa2a
+
+Bonne journée.
