@@ -1,12 +1,17 @@
 from flask import Flask, request, jsonify
 from env import *
+from modules import plop
 
 import mysql.connector
 import json
 
 app = Flask(__name__)
 
-
+# Identifiants de connections pour la BDD
+db = mysql.connector.connect(host=DB_HOST,
+                             user=DB_USER,
+                             password=DB_PASSWORD,
+                             database=DB_DATABASE)
 
 # Creation d'un objet curseur permettant d'executer des requetes SQL
 cursor = db.cursor()
@@ -17,16 +22,12 @@ data = {"id": "1234", "temperature": "25.665", "humidite": "1.626"}
 
 @app.route('/', methods=['GET'])
 # @ =décorateur de fct, endpoint api(url)
-def get_value():
+def get():
     '''request body : {"id" : id, "key" : key} '''
-
-    item_id = request.form["id"]
-    key = request.form["key"]
-
-    # sql request: get value of [key] from  item with id [item_id]
-    value = 0
-
-    return value
+    
+    
+    plop.read(test, 5, 10)
+    
 
 
 @app.route('/', methods=['POST'])
