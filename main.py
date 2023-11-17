@@ -6,27 +6,19 @@ import json
 
 app = Flask(__name__)
 
-# Identifiants de connections pour la BDD
-db = mysql.connector.connect(
-    host=DB_HOST,
-    user=DB_USER,
-    password=   DB_PASSWORD,
-    database=DB_DATABASE
-)
+
 
 # Creation d'un objet curseur permettant d'executer des requetes SQL
 cursor = db.cursor()
 
 # example data: from get request / for post request #########test
-data = {"id"   : "1234",
-        "temperature": "25.665",
-        "humidite": "1.626"}
+data = {"id": "1234", "temperature": "25.665", "humidite": "1.626"}
 
 
-@app.route('/', methods=['GET'])  
+@app.route('/', methods=['GET'])
 # @ =décorateur de fct, endpoint api(url)
 def get_value():
-    ''' request body : {"id" : id, "key" : key} '''
+    '''request body : {"id" : id, "key" : key} '''
 
     item_id = request.form["id"]
     key = request.form["key"]
