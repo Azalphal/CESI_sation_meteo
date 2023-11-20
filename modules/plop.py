@@ -23,7 +23,8 @@ def create(table, temperature, humidite):
 
     query = f"INSERT INTO `%s` (`%s`, `%s`) VALUES (%s, %s);"
 
-    cursor.execute(query, (table, temperature, humidite, temperature, humidite))
+    cursor.execute(query,
+                   (table, temperature, humidite, temperature, humidite))
     db.commit()
 
     cursor.close()
