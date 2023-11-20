@@ -8,6 +8,6 @@ while True:
 
     print(f"""-------
           sending data {data}
-          result {requests.post('http://127.0.0.1:5000', json=data)}""")
+          result {requests.post('localhost', json=data)}""")
 
     time.sleep(5)

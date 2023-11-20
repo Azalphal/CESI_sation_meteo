@@ -9,34 +9,37 @@ db = mysql.connector.connect(host=DB_HOST,
 
 
 def create(table, temperature, humidite):
-
+    '''Create a new entry in the database.'''
     cursor = db.cursor()
 
     query = f"""
     CREATE TABLE IF NOT EXISTS %s (
         id INT AUTO_INCREMENT PRIMARY KEY,
-        %s FLOAT,
-        %s FLOAT);
+        temperature FLOAT,
+        humidite FLOAT);
     """
-    cursor.execute(query, (table, temperature, humidite))
+    cursor.execute(query, (table))
     db.commit()
 
-    query = f"INSERT INTO `%s` (`%s`, `%s`) VALUES (%s, %s);"
+    query = f"INSERT INTO %s (temperature, humidite) VALUES (%s, %s);"
 
-    cursor.execute(query,
-                   (table, temperature, humidite, temperature, humidite))
+    values = (table, temperature, humidite)
+
+    cursor.execute(query, values)
     db.commit()
 
     cursor.close()
 
 
-def read(table, item_id, key):
-
+def read(key, table, item_id):
+    '''Read an entry in the database.'''
     cursor = db.cursor()
 
     query = f"SELECT %s FROM %s WHERE id = %s;"
 
-    cursor.execute(query, (key, table, item_id))
+    values = (key, table, item_id)
+
+    cursor.execute(query, values)
 
     data = cursor.fetchall()
     cursor.close()
@@ -44,24 +47,30 @@ def read(table, item_id, key):
 
 
 def update(table, item_id, key, value):
+    '''Update an entry in the database.'''
 
     cursor = db.cursor()
 
     query = f"UPDATE %s SET %s = %s WHERE id = %s;"
 
-    cursor.execute(query, (table, key, value, item_id))
+    values = (table, key, value, item_id)
+
+    cursor.execute(query, values)
     db.commit()
 
     cursor.close()
 
 
 def delete(table, item_id):
+    '''Delete an entry in the database.'''
 
     cursor = db.cursor()
 
     query = f"DELETE FROM %s WHERE id = %s;"
 
-    cursor.execute(query, (table, item_id))
+    values = (table, item_id)
+
+    cursor.execute(query, values)
     db.commit()
 
     cursor.close()
