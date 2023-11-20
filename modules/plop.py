@@ -13,17 +13,17 @@ def create(table, temperature, humidite):
     cursor = db.cursor()
 
     query = f"""
-    CREATE TABLE IF NOT EXISTS {table} (
+    CREATE TABLE IF NOT EXISTS %s (
         id INT AUTO_INCREMENT PRIMARY KEY,
-        temperature FLOAT,
-        humidite FLOAT);
+        %s FLOAT,
+        %s FLOAT);
     """
-    cursor.execute(query)
+    cursor.execute(query, (table, temperature, humidite))
     db.commit()
 
-    query = f"INSERT INTO `{table}` (`temperature`, `humidite`) VALUES ({temperature}, {humidite});"
+    query = f"INSERT INTO `%s` (`%s`, `%s`) VALUES (%s, %s);"
 
-    cursor.execute(query)
+    cursor.execute(query, (table, temperature, humidite, temperature, humidite))
     db.commit()
 
     cursor.close()
@@ -33,22 +33,22 @@ def read(table, item_id, key):
 
     cursor = db.cursor()
 
-    query = f"SELECT {key} FROM {table} WHERE id = {item_id};"
+    query = f"SELECT %s FROM %s WHERE id = %s;"
 
-    cursor.execute(query)
+    cursor.execute(query, (key, table, item_id))
 
     data = cursor.fetchall()
     cursor.close()
-    return str(data) 
+    return str(data)
 
 
 def update(table, item_id, key, value):
 
     cursor = db.cursor()
 
-    query = f"UPDATE {table} SET {key} = {value} WHERE id = {item_id};"
+    query = f"UPDATE %s SET %s = %s WHERE id = %s;"
 
-    cursor.execute(query)
+    cursor.execute(query, (table, key, value, item_id))
     db.commit()
 
     cursor.close()
@@ -58,9 +58,9 @@ def delete(table, item_id):
 
     cursor = db.cursor()
 
-    query = f"DELETE FROM {table} WHERE id = {item_id};"
+    query = f"DELETE FROM %s WHERE id = %s;"
 
-    cursor.execute(query)
+    cursor.execute(query, (table, item_id))
     db.commit()
 
     cursor.close()
