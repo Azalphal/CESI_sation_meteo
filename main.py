@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 
 from modules import plop
-from env import DB_TABLE
+from .env import DB_TABLE
 
 import mysql.connector
 
