@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL API Client</title>
+</head>
+
+<body>
+
+    <h2>SQL API Client</h2>
+
+    <!-- Dropdown menu for query type -->
+    <label for="queryType">Select Query Type:</label>
+    <select id="queryType">
+        <option value="create">Create</option>
+        <option value="read">Read</option>
+        <option value="update">Update</option>
+        <option value="delete">Delete</option>
+    </select>
+
+    <!-- Text box for input value -->
+    <label for="inputValue">Input Value:</label>
+    <input type="text" id="inputValue">
+
+    <!-- Button to send the request -->
+    <button onclick="sendRequest()">Send</button>
+
+    <script>
+        function sendRequest() {
+            // Specify the relative path to your Flask API route
+            var apiRoute = "/";
+
+            // Get selected query type and input value
+            var queryType = document.getElementById("queryType").value;
+            var inputValue = document.getElementById("inputValue").value;
+
+            // Prepare the data to send
+            var data = JSON.stringify({
+                "query_type": queryType,
+                "item_id": inputValue,
+                "key": "temperature",
+                "value": 25.0
+            });
+
+            // Send the request with the data
+            new XMLHttpRequest().send(data);
+            console.log(data)
+
+        }
+    </script>
+
+</body>
+
+</html>
