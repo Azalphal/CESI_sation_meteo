@@ -10,20 +10,21 @@ db = mysql.connector.connect(host=DB_HOST,
 
 def create(table, temperature, humidite):
     '''Create a new entry in the database.'''
+
     cursor = db.cursor()
 
     query = f"""
-    CREATE TABLE IF NOT EXISTS %s (
+    CREATE TABLE IF NOT EXISTS {table} (
         id INT AUTO_INCREMENT PRIMARY KEY,
         temperature FLOAT,
         humidite FLOAT);
     """
-    cursor.execute(query, (table))
+    cursor.execute(query)
     db.commit()
 
-    query = f"INSERT INTO %s (temperature, humidite) VALUES (%s, %s);"
+    query = f"INSERT INTO {table} (temperature, humidite) VALUES (%s, %s);"
 
-    values = (table, temperature, humidite)
+    values = (temperature, humidite)
 
     cursor.execute(query, values)
     db.commit()
@@ -33,17 +34,16 @@ def create(table, temperature, humidite):
 
 def read(key, table, item_id):
     '''Read an entry in the database.'''
+
     cursor = db.cursor()
 
-    query = f"SELECT %s FROM %s WHERE id = %s;"
+    query = f"SELECT {key} FROM {table} WHERE id = {item_id};"
 
-    values = (key, table, item_id)
-
-    cursor.execute(query, values)
+    cursor.execute(query)
 
     data = cursor.fetchall()
     cursor.close()
-    return str(data)
+    return data
 
 
 def update(table, item_id, key, value):
@@ -51,11 +51,9 @@ def update(table, item_id, key, value):
 
     cursor = db.cursor()
 
-    query = f"UPDATE %s SET %s = %s WHERE id = %s;"
+    query = f"UPDATE {table} SET {key} = {value} WHERE id = {item_id};"
 
-    values = (table, key, value, item_id)
-
-    cursor.execute(query, values)
+    cursor.execute(query)
     db.commit()
 
     cursor.close()

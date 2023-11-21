@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 
 from modules import plop
-from .env import DB_TABLE
+from env import DB_TABLE
 
 import mysql.connector
 
@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 @app.route('/api', methods=['POST', 'GET', 'PUT', 'DELETE'])
 def query():
-    """ handle sql queries """
+    """ handle http requests, call plop for sql queries """
 
     try:
         match request.method:
@@ -29,8 +29,8 @@ def query():
                 item_id = request.json.get("item_id")
                 key = request.json.get('key')
 
-                result = plop.read(DB_TABLE, item_id, key)
-                return jsonify({"result": result}), 200
+                result = plop.read(key, DB_TABLE, item_id)
+                return jsonify({"result": result[0][0]}), 200
 
             case 'PUT':
                 """Update an entry in the database. \n request body : {"item_id":, "key":, "value": } """
