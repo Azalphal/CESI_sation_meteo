@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 
 from modules import plop
 from env import DB_TABLE
@@ -6,6 +6,11 @@ from env import DB_TABLE
 import mysql.connector
 
 app = Flask(__name__)
+
+
+@app.route('/')
+def display_html():
+    return render_template("test.html")
 
 
 @app.route('/api', methods=['POST', 'GET', 'PUT', 'DELETE'])
@@ -52,6 +57,8 @@ def query():
 
     except mysql.connector.Error as err:
         return jsonify({"error": str(err)}), 500
+    
+    return render_template("test.html")
 
 
 if __name__ == "__main__":
