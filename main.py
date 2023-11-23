@@ -12,7 +12,7 @@ CORS(app)
 
 @app.route('/')
 def display_html():
-    return render_template("test.html")
+    return render_template("index.html")
 
 
 @app.route('/api/fetch_all', methods=['GET'])
