@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <div class="widget-container">
+        <div id="weather-widget">
+            <h2>Météo</h2>
+            <div class="widget-box">
+                <?php
+                // Récupérer les données depuis la base de données (à remplacer par la logique réelle)
+                $temperature = 25;
+                $humidity = 60;
+                echo "<p id='temperature'>Température: <span id='tempValue'>$temperature</span>°C</p>";
+                echo "<p id='humidity'>Humidité: <span id='humidityValue'>$humidity</span>%</p>";
+                ?>
+            </div>
+        </div>
+    </div>
+
+    <div id="chart-container">
+        <h2>Graphique</h2>
+        <canvas id="weatherChart"></canvas>
+        <button id="shareButton" onclick="shareData()">Partager les données</button>
+    </div>
+</div>
+
+<script>
+    config = {
+        type: "line", // Graphique de type Line
+        data: {
+            labels: [], // Données Axe X
+            datasets: [{
+                label: "Température °C", // Titre du jeu de données
+                fill: false, // Juste un trait pour le tracé de la courbe
+                backgroundColor: "red", // Couleur des points
+                borderColor: "red", // Couleur du trait
+                data: [] // Données Axe Y
+            }]
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    scaleLabel: { // Titre sur l'axe X
+                        display: true,
+                        labelString: "Temps"
+                    }
+                }],
+                yAxes: [{
+                    scaleLabel: { // Titre sur l'axe Y
+                        display: true,
+                        labelString: "°C"
+                    }
+                }]
+            }
+        }
+    };
+
+    /*Le contexte du canevas HTML */
+    context = document.getElementById("weatherChart").getContext("2d");
+    /* Création du graphique */
+    chart = new Chart(context, config);
+
+    /* Générer des données aléatoires */
+    function generateData() {
+        randomTemperature = (Math.random() * Math.floor(50)).toFixed(2); // Deux chiffres après la virgule
+        addTemperature(new Date().toLocaleTimeString(), randomTemperature);
+    }
+
+    function addTemperature(time, temperature) {
+        /* Ajoute la valeur en X */
+        config.data.labels.push(time);
+
+        /* Ajoute la valeur */
+        config.data.datasets[0].data.push(temperature);
+
+        /* Rafraichir le graphique */
+        chart.update();
+    }
+
+    function shareData() {
+        // Logique pour partager les données
+        console.log("Données partagées !");
+    }
+</script>
+
+</body>
+</html>
