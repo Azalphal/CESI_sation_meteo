@@ -1,5 +1,7 @@
 #ignore the environment variables (prevent leaks)
 env.py
 
+/modules/__pycache__
+/__pycache__
+
 /copaigns
-truer_main.py

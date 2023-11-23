@@ -1,53 +1,88 @@
-def insert(type, value):
-  
+import mysql.connector
+
+from env import *
+
+db = mysql.connector.connect(host=DB_HOST,
+                             user=DB_USER,
+                             password=DB_PASSWORD,
+                             database=DB_DATABASE)
 
 
-# def post():
-#     '''
-#     '''
-    
-    # hire_start = datetime.date(1999, 1, 1)
-    # hire_end = datetime.date(1999, 12, 31)
+def create(table, temperature, humidite):
+    '''Create a new entry in the database.'''
 
-    # cursor.execute(query, (hire_start, hire_end))
-    
-    # f' 
-    # INSERT INTO historique (type, date, value)
-    # VALUES (?, NOW(), ?);', [type, value])
-    # INSERT INTO table (temperature, humidite) VALUES ({temperature}, {humidite});"
+    cursor = db.cursor()
 
-def get_value():
-    ''' request body : {"id" : id, "key" : key} '''
+    query = f"""
+    CREATE TABLE IF NOT EXISTS {table} (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        temperature FLOAT,
+        humidite FLOAT);
+    """
+    cursor.execute(query)
+    db.commit()
 
-    item_id = request.form["id"]
-    key = request.form["key"]
+    query = f"INSERT INTO {table} (temperature, humidite) VALUES (%s, %s);"
 
-    # sql request: get value of [key] from  item with id [item_id]
-    query = f"SELECT {key} FROM {table} WHERE id = {item_id};"
-    #cursor.execute(query)
+    values = (temperature, humidite)
 
-    value = 0
+    cursor.execute(query, values)
+    db.commit()
 
-    return value
+    cursor.close()
 
 
-@app.route('/', methods=['POST'])
-def post():
-    ''' request body : {"temperature" : tvalue, "humidite" : hvalue} '''
+def read_all(table):
+    '''Read all entries in the database.'''
 
-    temperature = request.form["temperature"]
-    humidite = request.form["humidite"]
+    cursor = db.cursor()
 
-    query = f"INSERT INTO table (temperature, humidite) VALUES ({temperature}, {humidite});"
-    # (id should auto increment)
-    #cursor.execute(query)
+    query = f"SELECT * FROM {table};"
+
+    cursor.execute(query)
+
+    data = cursor.fetchall()
+    cursor.close()
+    return data
 
 
-@app.route('/', methods=['DELETE'])
-def delete():
-    ''' request body : {"id" : id} '''
+def read_last(table):
+    '''Read the last entry in the database.'''
 
-    item_id = request.form["id"]
-    # sql request: remove item with id [item_id] from table
-    query = f"DELETE FROM {table} WHERE id = {item_id};"
-    #cursor.execute(query)
+    cursor = db.cursor()
+
+    query = f"SELECT * FROM {table} ORDER BY id DESC LIMIT 1;"
+
+    cursor.execute(query)
+
+    data = cursor.fetchall()
+    cursor.close()
+    return data
+
+
+def update(table, item_id, key, value):
+    '''Update an entry in the database.'''
+
+    cursor = db.cursor()
+
+    query = f"UPDATE {table} SET {key} = {value} WHERE id = {item_id};"
+
+    cursor.execute(query)
+    db.commit()
+
+    cursor.close()
+
+
+def delete(table, item_id):
+    '''Delete an entry in the database.'''
+
+    cursor = db.cursor()
+
+    query = f"DELETE FROM %s WHERE id = %s;"
+
+    values = (table, item_id)
+
+    cursor.execute(query, values)
+    db.commit()
+
+    cursor.close()
