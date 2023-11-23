@@ -4,52 +4,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SQL API Client</title>
+    <title>http get test</title>
 </head>
 
 <body>
 
-    <h2>SQL API Client</h2>
+    <h2>http get query (fetch) test</h2>
 
-    <!-- Dropdown menu for query type -->
-    <label for="queryType">Select Query Type:</label>
-    <select id="queryType">
-        <option value="create">Create</option>
-        <option value="read">Read</option>
-        <option value="update">Update</option>
-        <option value="delete">Delete</option>
+    <!-- Dropdown menu for fetch type -->
+    <label for="fetch">Select fetch:</label>
+    <select id="fetch">
+        <option value="fetch_all">all values</option>
+        <option value="fetch_last">last value</option>
     </select>
 
-    <!-- Text box for input value -->
-    <label for="inputValue">Input Value:</label>
-    <input type="text" id="inputValue">
-
-    <!-- Button to send the request -->
-    <button onclick="sendRequest()">Send</button>
 
     <script>
-        function sendRequest() {
-            // Specify the relative path to your Flask API route
-            var apiRoute = "/api";
+        function sendRequest(){
+            const xhr = new XMLHttpRequest();
+            
+            var fetch = document.getElementById("fetch").value;
 
-            // Get selected query type and input value
-            var queryType = document.getElementById("queryType").value;
-            var inputValue = document.getElementById("inputValue").value;
+            if (fetch == "fetch_all") {
+                xhr.open("GET", "http://127.0.0.1:5000/api/fetch_all");
+                xhr.send();
+                xhr.responseType = "json";
+                xhr.onload = () => {
+                    if (xhr.readyState == 4 && xhr.status == 200) { // if request is successful
+                        const data = xhr.response; // get response
 
-            // Prepare the data to send
-            var data = JSON.stringify({
-                "query_type": queryType,
-                "item_id": inputValue,
-                "key": "temperature",
-                "value": 25.0
-            });
+                        console.log(data); // use data
+                    } else {
+                        console.log(`Error: ${xhr.status}`); // or display error
+                    }
+                };
 
-            // Send the request with the data
-            new XMLHttpRequest().send(data);
-            console.log(data)
+            } else if (fetch == "fetch_last") {
+                xhr.open("GET", "http://127.0.0.1:5000/api/fetch_last");
+                xhr.send();
+                xhr.responseType = "json";
+                xhr.onload = () => {
+                    if (xhr.readyState == 4 && xhr.status == 200) { // if request is successful
+                        const data = xhr.response;
 
+                        console.log(data); // use data
+                    } else {
+                        console.log(`Error: ${xhr.status}`); // display error
+                    }
+                };
+
+            } else {
+                console.log('Invalid "fetch" value')
+            }
         }
     </script>
+
+
+    <button onclick="sendRequest()">Send</button>
+
+
 
 </body>
 

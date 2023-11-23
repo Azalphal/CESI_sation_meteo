@@ -32,12 +32,26 @@ def create(table, temperature, humidite):
     cursor.close()
 
 
-def read(key, table, item_id):
-    '''Read an entry in the database.'''
+def read_all(table):
+    '''Read all entries in the database.'''
 
     cursor = db.cursor()
 
-    query = f"SELECT {key} FROM {table} WHERE id = {item_id};"
+    query = f"SELECT * FROM {table};"
+
+    cursor.execute(query)
+
+    data = cursor.fetchall()
+    cursor.close()
+    return data
+
+
+def read_last(table):
+    '''Read the last entry in the database.'''
+
+    cursor = db.cursor()
+
+    query = f"SELECT * FROM {table} ORDER BY id DESC LIMIT 1;"
 
     cursor.execute(query)
 
