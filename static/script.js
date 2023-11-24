@@ -1,9 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    
-    // Simuler des données de température et d'humidité depuis la base de données
-    const temperatureData = [20, 22, 25, 18, 23];
-    const humidityData = [50, 55, 60, 45, 58];
+
 
     // Afficher les données météo
     const tempValue = document.getElementById("tempValue");
