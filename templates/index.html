@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather Dashboard</title>
-    <link rel="stylesheet" href="{{ url_for('static',filename='index.css') }}">
-    <!-- <script src="{{ url_for('static',filename='javascriptFileName.js') }}"></script> -->
+    <link rel="stylesheet" href="../static/index.css">
+    <script src="..//static/script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
 <body>
 
@@ -32,6 +34,9 @@
         <button id="shareButton" onclick="shareData()">Partager les données</button>
     </div>
 </div>
+
+
+
 
 <script>
     config = {
@@ -91,6 +96,43 @@
         console.log("Données partagées !");
     }
 </script>
+
+<div id="map" style="height: 400px;">
+    
+<script>
+     var map = L.map('map').setView([48.858844, 2.294350], 13);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
+}).addTo(map);
+
+var probeLocation = [48.858844, 2.294350];
+var probeMarker = L.marker(probeLocation).addTo(map);
+probeMarker.bindPopup("Emplacement de la sonde").openPopup();
+
+// Exemple de cercle autour de la sonde
+var circle = L.circle(probeLocation, {
+    color: 'red',
+    fillColor: '#f03',
+    fillOpacity: 0.5,
+    radius: 200 // en mètres
+}).addTo(map);
+
+    var mymap = L.map('map').setView([48.8534, 2.3488], 13);
+
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+        attribution: '',
+        maxZoom: 18,
+        id: 'mapbox/streets-v11',
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken: 'pk.eyJ1IjoicGF1bG9wZXJzIiwiYSI6ImNrZ2Z2b2Z6ZjBjZm0ycW1yZ2Z6Z2J6Z2gifQ.5Z4Z3Z3Z3Z3Z3Z3Z3Z3Z3w'
+    }).addTo(mymap);
+
+    var marker = L.marker([48.8534, 2.3488]).addTo(mymap);
+</script>
+</div>
+
 
 </body>
 </html>
