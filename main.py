@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 
 from modules import plop
-from env import DB_TABLE
+from env import DB_TABLE, PROBE_TABLE
 
 import mysql.connector
 
@@ -14,6 +14,15 @@ CORS(app)
 def display_html():
     return render_template("index.html")
 
+@app.route('/api/update_probe', methods=['PUT'])
+def put_probe():
+    '''Update if it exist or create an entry in the probes database. \n request body : {"item_id":, "location": "X Y"} "'''
+
+    item_id = request.json.get('item_id')
+    location = request.json.get('location')
+
+    plop.update_probe(PROBE_TABLE, item_id, location)
+    return jsonify({"result": "Probe location updated successfully."}), 200
 
 @app.route('/api/fetch_all', methods=['GET'])
 def fetch_all():

@@ -73,6 +73,32 @@ def update(table, item_id, key, value):
     cursor.close()
 
 
+def update_probe(table, item_id, location):
+    '''Update or create an entry in the probes database.'''
+
+    cursor = db.cursor()
+
+    query = f"""
+    CREATE TABLE IF NOT EXISTS {table} (
+        id INT PRIMARY KEY,
+        location VARCHAR(100));
+    """
+    cursor.execute(query)
+    db.commit()
+
+    query = f"""
+        INSERT INTO {table} (id, location) VALUES (%s, %s)
+        ON DUPLICATE KEY UPDATE location = VALUES (location);
+        """
+    
+    values = (item_id, location)
+
+    cursor.execute(query, values)
+    db.commit()
+
+    cursor.close()
+
+
 def delete(table, item_id):
     '''Delete an entry in the database.'''
 
