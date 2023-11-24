@@ -33,11 +33,11 @@ def create(table, temperature, humidite):
 
 
 def read_all(table):
-    '''Read all entries in the database.'''
+    '''Read the last 10 entries in the database.'''
 
     cursor = db.cursor()
 
-    query = f"SELECT * FROM {table};"
+    query = f"SELECT * FROM {table} ORDER BY id DESC LIMIT 10;;"
 
     cursor.execute(query)
 
