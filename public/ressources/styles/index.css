@@ -1,0 +1,59 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f7f7f7;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.widget-container {
+    background-color: #3498db;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+#weather-widget {
+    margin-bottom: 20px;
+}
+
+.widget-box {
+    border: 2px solid #2980b9;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #fff;
+    background-image: url(cie.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+
+}
+
+canvas {
+    max-width: 100%;
+}
+
+#shareButton {
+    display: block;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #2ecc71;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#shareButton:hover {
+    background-color: #27ae60;
+}
