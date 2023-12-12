@@ -138,9 +138,16 @@ var circle = L.circle(probeLocation, {
     function simulateApiCall() {
       const randomTemperature = Math.floor(Math.random() * (70 - (-30) + 1)) + (-30);
       const randomHumidity = Math.floor(Math.random() * (100 - 1 + 1)) + 1;
+      const randomPosition = null;
+
+      /*
+      Sauvegarder les données utilisateur
+
+       */
+
 
       // Simulated API call (replace with actual API endpoint)
-      return Promise.resolve({ temperature: randomTemperature, humidity: randomHumidity });
+      return Promise.resolve({ temperature: randomTemperature, humidity: randomHumidity, position: randomPosition });
     }
 
     // Function to update chart
