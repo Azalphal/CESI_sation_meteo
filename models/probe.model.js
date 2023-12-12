@@ -22,7 +22,7 @@ Probe.create = async (newProbe, result) => {
         const res = await connection.query(`
                     INSERT INTO probe (name)
                     VALUES (?)`,
-            [validatedProbe.name]);
+            [validatedProbe]);
 
         console.log("Created probe: ", {id: res.insertId, ...validatedProbe});
         result(null, {id: res.insertId, ...validatedProbe});
