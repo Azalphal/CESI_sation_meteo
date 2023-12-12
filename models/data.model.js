@@ -49,7 +49,7 @@ Data.findById = async (id, result) => {
             [validatedId]);
 
         if (res.length !== 0) {
-            console.log("Found releves: ", res[0]);
+            console.log("Found data: ", res[0]);
             result(null, res[0]);
         } else {
             console.error("Data not found for id: ", validatedId);
