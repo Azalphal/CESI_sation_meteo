@@ -5,18 +5,10 @@ const Probe = function (probe) {
     this.name = probe.name;
 };
 
-const validateProbeInput = (newProbe) => {
-    if (!newProbe || typeof newProbe !== "object" ||
-        !("name" in newProbe)) {
-        throw new Error("Invalid input: Missing required fields.")
-    }
-};
-
 Probe.create = (newProbe, result) => {
 
     pool.getConnection()
         .then((connection) => {
-            validateProbeInput(newProbe);
 
             connection.query(`
                         INSERT INTO probe (name)
@@ -60,7 +52,6 @@ Probe.findById = (id, result) => {
 
     pool.getConnection()
         .then((connection) => {
-            validateProbeInput(id);
 
             connection.query(`
                         SELECT *
@@ -158,14 +149,12 @@ Probe.updateById = (id, name, result) => {
 
     pool.getConnection()
         .then((connection) => {
-            validateProbeInput(id);
-            validateProbeInput(name);
 
             connection.query(`
                         UPDATE probe
                         SET name = ?
                         WHERE id = ?`,
-                [id.id, name.name])
+                [name, id])
                 .then((res) => {
                     if (res.affectedRows !== 0) {
                         console.log("Updated probe: ", res);
