@@ -19,9 +19,10 @@ npm install -g express
 # Install npm packages
 npm install
 
+#UTILISER SEQUELIZE CLI POUR CA
 # Create the MySQL database and tables
-echo "CREATE DATABASE IF NOT EXISTS MeteoStation;" | mysql -u root -p
-echo "USE MeteoStation;" | mysql -u root -p
+echo "CREATE DATABASE IF NOT EXISTS Weather_Station;" | mysql -u root -p
+echo "USE Weather_Station;" | mysql -u root -p
 cat db/schema.sql | mysql -u root -p
 
 # Start the application

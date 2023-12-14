@@ -25,8 +25,8 @@ const checkIfNew = async () => {
     } catch (err) {
         console.log('Database does not exist. Creating it.');
 
-        await pool.query(`CREATE DATABASE IF NOT EXIST Station_Meteo`);
-        await pool.query(`USE Station_Meteo`);
+        await pool.query(`CREATE DATABASE IF NOT EXIST Weather_Station`);
+        await pool.query(`USE Weather_Station`);
 
     } finally {
         await con.release();

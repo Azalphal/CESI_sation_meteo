@@ -1,4 +1,4 @@
-import {pool} from "./db.model"
+const {pool} = require("./db.model");
 
 // constructor
 const Data = function (data) {
@@ -7,25 +7,13 @@ const Data = function (data) {
     this.position = data.position;
 };
 
-const validateDataInput = (newData) => {
-    if (!newData || typeof newData !== "object" ||
-        !("humidity" in newData) ||
-        !("temperature" in newData) ||
-        !("position" in newData)) {
-        throw new Error("Invalid input: Missing required fields.")
-    }
-    return newData;
-};
-
 Data.create = (newData, result) => {
 
     pool.getConnection()
         .then((connection) => {
-            validateDataInput(newData);
-
             connection.query(`
-                        INSERT INTO data (humidity, temperature, position)
-                        VALUES (?, ?, ?)`,
+                        INSERT INTO data (humidity, temperature, position, date)
+                        VALUES (?, ?, ?, NOW())`,
                 [newData.humidity, newData.temperature, newData.position])
                 .then((res) => result(null, {id: res.insertId, ...newData}));
 
@@ -36,7 +24,7 @@ Data.create = (newData, result) => {
             console.error("Database error: ", err);
             result({error: "Database error", details: err}, null);
         });
-}
+};
 
 /*Data.create = async (newData, result) => {
     try {
@@ -61,13 +49,11 @@ Data.findById = (id, result) => {
 
     pool.getConnection()
         .then((connection) => {
-            validateDataInput(id);
-
             connection.query(`
                         SELECT *
                         FROM data
                         WHERE id = ?`,
-                [id.id])
+                [id])
                 .then(res => {
                     if (res.length !== 0) {
                         console.log("Found data: ", res[0]);
@@ -84,7 +70,7 @@ Data.findById = (id, result) => {
             console.error("Database error: ", err);
             result({error: "Database error", details: err}, null);
         });
-}
+};
 
 /*
 Data.findById = async (id, result) => {
@@ -132,7 +118,7 @@ Data.getAll = (result) => {
             console.error("Database error: ", err);
             result({error: "Database error", details: err}, null);
         });
-}
+};
 
 /*
 Data.getAll = async (date, result) => {
