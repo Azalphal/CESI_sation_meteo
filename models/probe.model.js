@@ -1,4 +1,4 @@
-import {pool} from "./db.model"
+const {pool} = require("./db.model");
 
 // constructor
 const Probe = function (probe) {
@@ -10,12 +10,34 @@ const validateProbeInput = (newProbe) => {
         !("name" in newProbe)) {
         throw new Error("Invalid input: Missing required fields.")
     }
-    return newProbe;
 };
 
-Probe.create = async (newProbe, result) => {
+Probe.create = (newProbe, result) => {
+
+    pool.getConnection()
+        .then((connection) => {
+            validateProbeInput(newProbe);
+
+            connection.query(`
+                        INSERT INTO probe (name)
+                        VALUES (?)`,
+                [newProbe.name])
+                .then((res) => result(null, {id: res.insertId, ...newProbe}));
+
+            return connection;
+        })
+        .then((connection) => connection.release())
+        .catch((err) => {
+            console.error("Database error: ", err);
+            result({error: "Database error", details: err}, null);
+        });
+};
+
+
+/*
+Probe.create =  async   (newProbe, result) => {
+
     try {
-        const connection = await pool.getConnection();
 
         const validatedProbe = await validateProbeInput(newProbe);
 
@@ -30,9 +52,41 @@ Probe.create = async (newProbe, result) => {
         console.error("Database error: ", err);
         result({error: "Database error", details: err}, null);
     }
-};
 
+};
+*/
+
+Probe.findById = (id, result) => {
+
+    pool.getConnection()
+        .then((connection) => {
+            validateProbeInput(id);
+
+            connection.query(`
+                        SELECT *
+                        FROM probe
+                        WHERE id = ?`,
+                [id.id])
+                .then(res => {
+                    if (res.length !== 0) {
+                        console.log("Found data: ", res);
+                        result(null, res);
+                    } else {
+                        console.error("Data not found for id: ", id);
+                        result({error: "Data not found", details: `No record found for id: ${id}`}, null);
+                    }
+                });
+            return connection;
+        })
+        .then((connection) => connection.release())
+        .catch((err) => {
+            console.error("Database error: ", err);
+            result({error: "Database error", details: err}, null);
+        });
+};
+/*
 Probe.findById = async (id, result) => {
+
     const connection = await pool.getConnection();
 
     try {
@@ -60,8 +114,27 @@ Probe.findById = async (id, result) => {
         }
     }
 };
+*/
 
-Probe.getAll = async (result) => {
+Probe.getAll = (result) => {
+
+    pool.getConnection()
+        .then((connection) => {
+
+            connection.query(`
+                SELECT *
+                FROM probe`
+            )
+                .then((res) => result(null, res));
+        })
+        .then((connection) => connection.release())
+        .catch((err) => {
+            console.error("Database error: ", err);
+            result({error: "Database error", details: err}, null);
+        });
+};
+
+/*Probe.getAll = async (result) => {
     const connection = await pool.getConnection();
 
     try {
@@ -79,8 +152,40 @@ Probe.getAll = async (result) => {
             connection.release();
         }
     }
+};*/
+
+Probe.updateById = (id, name, result) => {
+
+    pool.getConnection()
+        .then((connection) => {
+            validateProbeInput(id);
+            validateProbeInput(name);
+
+            connection.query(`
+                        UPDATE probe
+                        SET name = ?
+                        WHERE id = ?`,
+                [id.id, name.name])
+                .then((res) => {
+                    if (res.affectedRows !== 0) {
+                        console.log("Updated probe: ", res);
+                        result(null, {id: id, name: name});
+                    } else {
+                        console.error("Probe not found for id: ", id);
+                        result({error: "Probe not found", details: `No record found for id: ${id}`}, null);
+                    }
+                });
+
+            return connection;
+        })
+        .then((connection) => connection.release())
+        .catch((err) => {
+            console.error("Database error: ", err);
+            result({error: "Database error", details: err}, null);
+        });
 };
 
+/*
 Probe.updateById = async (id, name, result) => {
     const connection = await pool.getConnection();
 
@@ -95,7 +200,7 @@ Probe.updateById = async (id, name, result) => {
             [validatedId.id, validateName.name]);
 
         if (res.affectedRows !== 0) {
-            console.log("Updated probe: ", res[0]);
+            console.log("Updated probe: ", res);
             result(null, {id: id, name: name});
         } else {
             console.error("Probe not found for id: ", validatedId);
@@ -112,6 +217,7 @@ Probe.updateById = async (id, name, result) => {
             connection.release();
         }
     }
-};
+
+};*/
 
 module.exports = Probe;
