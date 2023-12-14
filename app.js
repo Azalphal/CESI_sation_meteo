@@ -1,35 +1,39 @@
 const express = require('express');
-const session = require('express-session');
-const crypto = require('crypto');
 const path = require('path');
-
-const authRouter = require('./routes/auth');
-const relevesRouter = require('./routes/data.routes')
-const ensureAuthenticated = require('./middleware/auth');
-const {initDatabase} = require('./models/db.model.js');
-const {create} = require("./models/probe.model");
-const Probu = require("./models/probe.model");
-
 const app = express();
-const PORT = process.env.PORT || 3000;
-//const secretKey = crypto.randomBytes(64).toString('hex'); USE BASIC AUTH : REMEMBER ME
+const { Sequelize } = require('sequelize');
+const config = require('./config/config');
+const userRouter = require('./routes/users.routes.js')
+
+
+// parse application/x-www-form-urlencoded
+app.use(express.urlencoded({extended: true}))
+
+// parse application/json
+app.use(express.json());
 
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(express.json());
-//app.use(session({ secret: secretKey, resave: true, saveUninitialized: true })); USE BASIC AUTH : REMEMBER ME
+const sequelize = new Sequelize(config.development.database, config.development.username, config.development.password, {
+    host: config.development.host,
+    dialect: config.development.dialect
+});
 
-//app.use('/auth', authRouter);
-//app.use('/api', ensureAuthenticated, apiRouter);
-//app.use('/releves', ensureAuthenticated, apiRouter);
+// Test the database connection
+sequelize
+    .authenticate()
+    .then(() => {
+        console.log('Database connection has been established successfully.');
+    })
+    .catch(err => {
+        console.error('Unable to connect to the database:', err);
+    });
 
-initDatabase();
+app.use('/api', userRouter);
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'login.html'));
 });
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+module.exports= app;
