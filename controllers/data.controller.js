@@ -1,7 +1,7 @@
-const Releves = require("../models/data.model");
+const Data = require("../models/data.model.js");
 
-// Create and Save a new Releves
-const create = (req, res) => {
+// Create and Save a new Data
+exports.create = (req, res) => {
     // Validate request
     if (!req.body) {
         res.status(400).send({
@@ -9,19 +9,19 @@ const create = (req, res) => {
         });
     }
 
-    // Create a Releves
-    const releves = new Releves({
-        title: req.body.title,
-        description: req.body.description,
-        published: req.body.published || false
+    // Create a Data
+    const data = new data({
+        humidity: req.body.humidity,
+        temperature: req.body.temperature,
+        position: req.body.position
     });
 
-    // Save Releves in the database
-    Releves.create(releves, (err, data) => {
+    // Save Data in the database
+    Data.create(data, (err, data) => {
         if (err)
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while creating the Releves."
+                    err.message || "Some error occurred while creating the Data."
             });
         else res.send(data);
     });
@@ -31,7 +31,7 @@ const create = (req, res) => {
 exports.findAll = (req, res) => {
     const title = req.query.title;
 
-    Releves.getAll(title, (err, data) => {
+    Data.getAll(title, (err, data) => {
         if (err)
             res.status(500).send({
                 message:
@@ -41,17 +41,17 @@ exports.findAll = (req, res) => {
     });
 };
 
-// Find a single Releves by Id
+// Find a single Data by Id
 exports.findOne = (req, res) => {
-    Releves.findById(req.params.id, (err, data) => {
+    Data.findById(req.params.id, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).send({
-                    message: `Not found Releves with id ${req.params.id}.`
+                    message: `Not found Tutorial with id ${req.params.id}.`
                 });
             } else {
                 res.status(500).send({
-                    message: "Error retrieving Releves with id " + req.params.id
+                    message: "Error retrieving Data with id " + req.params.id
                 });
             }
         } else res.send(data);
@@ -60,7 +60,7 @@ exports.findOne = (req, res) => {
 
 // find all published Tutorials
 exports.findAllPublished = (req, res) => {
-    Releves.getAllPublished((err, data) => {
+    Data.getAllPublished((err, data) => {
         if (err)
             res.status(500).send({
                 message:
@@ -70,7 +70,7 @@ exports.findAllPublished = (req, res) => {
     });
 };
 
-// Update a Releves identified by the id in the request
+// Update a Data identified by the id in the request
 exports.update = (req, res) => {
     // Validate Request
     if (!req.body) {
@@ -81,9 +81,9 @@ exports.update = (req, res) => {
 
     console.log(req.body);
 
-    Releves.updateById(
+    Data.updateById(
         req.params.id,
-        new Releves(req.body),
+        new Data(req.body),
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {
@@ -92,7 +92,7 @@ exports.update = (req, res) => {
                     });
                 } else {
                     res.status(500).send({
-                        message: "Error updating Releves with id " + req.params.id
+                        message: "Error updating Data with id " + req.params.id
                     });
                 }
             } else res.send(data);
@@ -100,9 +100,9 @@ exports.update = (req, res) => {
     );
 };
 
-// Delete a Releves with the specified id in the request
+// Delete a Data with the specified id in the request
 exports.delete = (req, res) => {
-    Releves.remove(req.params.id, (err, data) => {
+    Data.remove(req.params.id, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).send({
@@ -110,7 +110,7 @@ exports.delete = (req, res) => {
                 });
             } else {
                 res.status(500).send({
-                    message: "Could not delete Releves with id " + req.params.id
+                    message: "Could not delete Data with id " + req.params.id
                 });
             }
         } else res.send({ message: `Tutorial was deleted successfully!` });
@@ -119,7 +119,7 @@ exports.delete = (req, res) => {
 
 // Delete all Tutorials from the database.
 exports.deleteAll = (req, res) => {
-    Releves.removeAll((err, data) => {
+    Data.removeAll((err, data) => {
         if (err)
             res.status(500).send({
                 message:
@@ -127,8 +127,4 @@ exports.deleteAll = (req, res) => {
             });
         else res.send({ message: `All Tutorials were deleted successfully!` });
     });
-};
-
-module.exports = {
-    create,
 };
