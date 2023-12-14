@@ -17,7 +17,28 @@ const validateDataInput = (newData) => {
     return newData;
 };
 
-Data.create = async (newData, result) => {
+Data.create = (newData, result) => {
+
+    pool.getConnection()
+        .then((connection) => {
+            validateDataInput(newData);
+
+            connection.query(`
+                        INSERT INTO data (humidity, temperature, position)
+                        VALUES (?, ?, ?)`,
+                [newData.humidity, newData.temperature, newData.position])
+                .then((res) => result(null, {id: res.insertId, ...newData}));
+
+            return connection;
+        })
+        .then((connection) => connection.release())
+        .catch((err) => {
+            console.error("Database error: ", err);
+            result({error: "Database error", details: err}, null);
+        });
+}
+
+/*Data.create = async (newData, result) => {
     try {
         const connection = await pool.getConnection();
 
@@ -26,7 +47,7 @@ Data.create = async (newData, result) => {
         const res = await connection.query(`
                     INSERT INTO data (humidity, temperature, position)
                     VALUES (?, ?, ?)`,
-            [validatedData.humidite, validatedData.temperature, validatedData.position]);
+            [validatedData.humidity, validatedData.temperature, validatedData.position]);
 
         console.log("Created data: ", {id: res.insertId, ...validatedData});
         result(null, {id: res.insertId, ...validatedData});
@@ -34,8 +55,38 @@ Data.create = async (newData, result) => {
         console.error("Database error: ", err);
         result({error: "Database error", details: err}, null);
     }
-};
+};*/
 
+Data.findById = (id, result) => {
+
+    pool.getConnection()
+        .then((connection) => {
+            validateDataInput(id);
+
+            connection.query(`
+                        SELECT *
+                        FROM data
+                        WHERE id = ?`,
+                [id.id])
+                .then(res => {
+                    if (res.length !== 0) {
+                        console.log("Found data: ", res[0]);
+                        result(null, res[0]);
+                    } else {
+                        console.error("Data not found for id: ", id);
+                        result({error: "Data not found", details: `No record found for id: ${id}`}, null);
+                    }
+                });
+            return connection;
+        })
+        .then((connection) => connection.release())
+        .catch((err) => {
+            console.error("Database error: ", err);
+            result({error: "Database error", details: err}, null);
+        });
+}
+
+/*
 Data.findById = async (id, result) => {
     const connection = await pool.getConnection();
 
@@ -63,8 +114,27 @@ Data.findById = async (id, result) => {
             connection.release();
         }
     }
-};
+};*/
 
+Data.getAll = (result) => {
+
+    pool.getConnection()
+        .then((connection) => {
+
+            connection.query(`
+                SELECT *
+                FROM data`
+            )
+                .then((res) => result(null, res));
+        })
+        .then((connection) => connection.release())
+        .catch((err) => {
+            console.error("Database error: ", err);
+            result({error: "Database error", details: err}, null);
+        });
+}
+
+/*
 Data.getAll = async (date, result) => {
     const connection = await pool.getConnection();
 
@@ -89,6 +159,6 @@ Data.getAll = async (date, result) => {
             connection.release();
         }
     }
-};
+};*/
 
 module.exports = Data;

@@ -2,11 +2,11 @@ const mysql = require('mysql2/promise');
 
 // Database connection.
 const pool = mysql.createPool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE.toString(),
-    port: process.env.DB_PORT,
+    host: /*process.env.DB_HOST*/'localhost',
+    user: /*process.env.DB_USERNAME*/'root',
+    password: /*process.env.DB_PASSWORD*/'root',
+    database: /*process.env.DB_DATABASE*/'Weather_Station',
+    port: /*process.env.DB_PORT*/3306,
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
@@ -18,22 +18,24 @@ const checkIfNew = async () => {
 
     //const createConnection = util.promisify(mysql.createConnection);
 
-    const con = await pool;
+    const con = await pool.getConnection();
 
     try {
-        await con.query(`USE ?`, [process.env.DB_DATABASE]);
+        await con.query(`USE Weather_Station`);
     } catch (err) {
         console.log('Database does not exist. Creating it.');
 
-        await pool.query(`CREATE DATABASE IF NOT EXIST ?`, [process.env.DB_DATABASE]);
-        await pool.query(`USE ?`, [process.env.DB_DATABASE]);
+        await pool.query(`CREATE DATABASE IF NOT EXIST Station_Meteo`);
+        await pool.query(`USE Station_Meteo`);
 
     } finally {
-        await con.end();
+        await con.release();
     }
 };
 
 const initDatabase = async () => {
+
+    console.log('Initializing the database.');
 
     try {
         await checkIfNew();
