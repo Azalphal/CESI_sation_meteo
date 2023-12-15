@@ -1,7 +1,7 @@
 const models = require("../models");
 const User = models.Users;
 
-//const User = require("../models/users")
+//const User = require("../models/users") // DOES NOT WORK
 
 const validateUsersInput = (newUser) => {
     if (!newUser || typeof newUser !== "object" ||
