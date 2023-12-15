@@ -1,6 +1,8 @@
 const models = require("../models");
 const User = models.Users;
 
+//const User = require("../models/users")
+
 const validateUsersInput = (newUser) => {
     if (!newUser || typeof newUser !== "object" ||
         !("username" in newUser) ||
@@ -14,17 +16,16 @@ exports.create = (req, res) => {
 
     validateUsersInput(req);
 
-    const newUser = new User({
+    new User({
         username: req.body.username,
         email: req.body.email,
         password: req.body.password
-    });
+    }).save().then((result) => res.status(200).json(result));
 
-    try {
-        User.create(newUser, (err, result) => {
-            return res.status(201).json(result);
-        })
-    } catch (err) {
-        return res.status(400).json({error: "Validation error", details: err.message});
-    }
+};
+
+exports.findAll = (req, res) => {
+
+    User.findAll().then((result) => res.status(200).json(result));
+
 };

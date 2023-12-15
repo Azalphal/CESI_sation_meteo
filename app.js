@@ -8,7 +8,6 @@ const dataRouter = require("./routes/data.routes");
 const usersRouter = require("./routes/users.routes");
 
 const ensureAuthenticated = require("./middleware/auth");
-//const {initDatabase} = require("./models/db.model.js");
 const {Sequelize} = require("sequelize");
 const config = require("./config/config");
 
