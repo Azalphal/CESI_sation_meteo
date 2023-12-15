@@ -4,6 +4,6 @@ const router = express.Router();
 
 router.post("/", users.create);
 
-//lolrouter.get("/", users.findAll);
+router.get("/", users.findAll);
 
 module.exports = router;
