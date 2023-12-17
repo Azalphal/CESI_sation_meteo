@@ -1,5 +1,3 @@
-'use strict';
-
 const {Model} = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
@@ -20,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
         password: DataTypes.STRING(255)
     }, {
         sequelize,
-        modelName: 'users',
+        modelName: 'User',
     });
 
     return Users;
