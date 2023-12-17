@@ -1,5 +1,6 @@
-const models = require("../models");
-const User = models.Users;
+const User = require("../models").sequelize;
+//const models = require('../models');
+//const User = models.Users;
 
 //const User = require("../models/users") // DOES NOT WORK
 
@@ -14,9 +15,9 @@ const validateUsersInput = (newUser) => {
 
 exports.create = (req, res) => {
 
-    validateUsersInput(req);
+    //validateUsersInput(req);
 
-    new User({
+    User.build({
         username: req.body.username,
         email: req.body.email,
         password: req.body.password
