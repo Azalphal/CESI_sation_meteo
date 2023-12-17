@@ -1,19 +1,9 @@
-module.exports = app => {
-    const data = require("../controllers/data.controller.js");
+const users = require("../controllers/data.controller");
+const express = require("express");
+const router = express.Router();
 
-    const router = require("express").Router();
+router.post("/", users.create);
 
-    // Create a new Tutorial
-    router.post("/", data.create);
+router.get("/", users.findAll);
 
-    // Retrieve all Tutorials
-    router.get("/", data.findAll);
-
-    // Retrieve all published Tutorials
-    router.get("/published", data.findAllPublished);
-
-    // Retrieve a single Tutorial with id
-    router.get("/:id", data.findOne);
-
-    app.use('/api/tutorials', router);
-};
+module.exports = router;
