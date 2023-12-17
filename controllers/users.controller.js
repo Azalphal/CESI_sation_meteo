@@ -1,6 +1,6 @@
-const User = require("../models").sequelize;
-//const models = require('../models');
-//const User = models.Users;
+//const Users = require("../models").sequelize;
+const models = require('../models');
+const User = models.User;
 
 //const User = require("../models/users") // DOES NOT WORK
 
@@ -26,7 +26,6 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-
-    User.findAll().then((result) => res.status(200).json(result));
+     User.findAll().then((result) => res.status(200).json(result));
 
 };
