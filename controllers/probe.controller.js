@@ -16,3 +16,11 @@ exports.findAll = (req, res) => {
     Probe.findAll().then((result) => res.status(200).json(result));
 
 };
+
+exports.findOne = (req, res) => {
+    Probe.findOne(req.body.id || req.body.name).then((result) => res.status(200).json(result));
+};
+
+exports.update = (req, res) => {
+    Probe.update().then((result) => res.status(200).json(result));
+};
