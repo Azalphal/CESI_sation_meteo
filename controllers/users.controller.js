@@ -17,3 +17,15 @@ exports.findAll = (req, res) => {
      User.findAll().then((result) => res.status(200).json(result));
 
 };
+
+exports.findOne = (req, res) => {
+    User.findOne(req.body.id).then((result) => res.status(200).json(result));
+};
+
+exports.update = (req, res) => {
+    User.update().then((result) => res.status(200).json(result));
+};
+
+exports.delete = (req, res) => {
+    User.destroy().then((result) => res.status(200).json(result));
+};

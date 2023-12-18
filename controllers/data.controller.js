@@ -16,3 +16,7 @@ exports.create = (req, res) => {
 exports.findAll = (req, res) => {
     Data.findAll().then((result) => res.status(200).json(result));
 };
+
+exports.findOne = (req, res) => {
+    Data.findOne(req.body.id).then((result) => res.status(200).json(result));
+};
