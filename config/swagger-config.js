@@ -4,28 +4,29 @@ module.exports = {
     info: {
         title: 'Weather API "Michel"',
         version: '1.0.0',
-        description: '|\n' +
-            '    Welcome to the Weather API "Michel", a powerful tool to retrieve real-time weather data.\n' +
-            '    This API is designed to provide accurate and up-to-date information on temperature, humidity, and atmospheric pressure.\n' +
-            '\n' +
-            '    ## Purpose:\n' +
-            '    The Awesome Weather API aims to empower developers, researchers, and enthusiasts with comprehensive weather data to enhance their applications and projects.\n' +
-            '\n' +
-            '    ## Key Features:\n' +
-            '    - Real-time temperature readings\n' +
-            '    - Humidity and pressure information\n' +
-            '    - Seamless integration with IoT devices\n' +
-            '    - User-friendly and intuitive endpoints\n' +
-            '\n' +
-            '    ## Use Cases:\n' +
-            '    - Integrating weather data into mobile apps\n' +
-            '    - Building weather monitoring systems\n' +
-            '    - Enhancing IoT devices with live weather updates\n' +
-            '\n' +
-            '    ## Benefits:\n' +
-            '    - Accurate and reliable weather information\n' +
-            '    - Easy integration with various platforms\n' +
-            '    - Robust support for diverse use cases\n',
+        description: `# 🌦️ Welcome to the Weather API "Michel" 🌈
+
+        Powerful tool to retrieve real-time weather data.
+
+        ## Purpose 🚀
+        The Awesome Weather API empowers developers, researchers, and enthusiasts with comprehensive weather data to enhance their applications and projects.
+
+        ## Key Features 🌟
+        - Real-time temperature readings
+        - Humidity and pressure information
+        - Seamless integration with IoT devices
+        - User-friendly and intuitive endpoints
+
+        ## Use Cases 🌐
+        - Integrating weather data into mobile apps
+        - Building weather monitoring systems
+        - Enhancing IoT devices with live weather updates
+        
+        ## Benefits 🌞
+        - Accurate and reliable weather information
+        - Easy integration with various platforms
+        - Robust support for diverse use cases`
+
     }, "basePath": "/api",
     "schemes": ["https"],
     "consumes": ["application/json"],
