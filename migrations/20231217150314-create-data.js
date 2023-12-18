@@ -15,6 +15,9 @@ module.exports = {
       temperature: {
         type: Sequelize.INTEGER
       },
+      pressure: {
+        type: Sequelize.INTEGER
+      },
       position: {
         type: Sequelize.STRING
       },
