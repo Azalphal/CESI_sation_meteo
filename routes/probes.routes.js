@@ -6,4 +6,8 @@ router.post("/", probes.create);
 
 router.get("/", probes.findAll);
 
+router.get("/:id", probes.findOne);
+
+router.put("/", probes.update);
+
 module.exports = router;
