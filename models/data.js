@@ -14,9 +14,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Data.init({
-    humidity: DataTypes.INTEGER,
-    temperature: DataTypes.INTEGER,
-    pressure: DataTypes.INTEGER,
+    humidity: DataTypes.FLOAT,
+    temperature: DataTypes.FLOAT,
+    pressure: DataTypes.FLOAT,
     position: DataTypes.STRING
   }, {
     sequelize,
