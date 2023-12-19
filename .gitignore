@@ -1,7 +1,3 @@
-#ignore the environment variables (prevent leaks)
-env.py
-
-/modules/__pycache__
-/__pycache__
-
-/copaigns
+/node_modules
+/.idea
+.env
