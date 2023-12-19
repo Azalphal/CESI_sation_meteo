@@ -21,10 +21,6 @@ exports.findLast = (req, res) => {
     // chatgtp here
 };
 
-exports.findOrCreate = (req, res) => {
-    User.findOrCreate({ where: { username: }})
-};
-
 exports.findOne = (req, res) => {
     User.findOne(req.body.id).then((result) => res.status(200).json(result));
 };
