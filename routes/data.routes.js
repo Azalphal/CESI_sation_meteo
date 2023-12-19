@@ -6,6 +6,8 @@ router.post("/", data.create);
 
 router.get("/", data.findAll);
 
+router.get("/last", data.findLast);
+
 router.get("/:id", data.findOne);
 
 module.exports = router;
