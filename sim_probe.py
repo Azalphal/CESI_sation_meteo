@@ -3,7 +3,7 @@ import time
 import random
 
 while True:
-    data = {'humidity': random.uniform(0, 100), 'temperature': random.uniform(-50, 50), 'position': f"[{random.uniform(-50, 50)}, {random.uniform(-50, 50)}]", 'pressure': random.uniform(0, 100)}
+    data = {'humidity': random.uniform(0, 100), 'temperature': random.uniform(-50, 50), 'position': f"[{random.uniform(-90, 90)}, {random.uniform(-90, 90)}]", 'pressure': random.uniform(0, 100)}
                                                                                                     # Aix [43.48126872010999, 5.386365955132931]
     print(f"sending data {data}")
 
