@@ -3,6 +3,7 @@ const swaggerUi = require("swagger-ui-express");
 const path = require("path");
 const app = express();
 
+const authRouter = require("./routes/auth.routes");
 const dataRouter = require("./routes/data.routes");
 const usersRouter = require("./routes/users.routes");
 const probesRouter = require("./routes/probes.routes");
@@ -31,8 +32,9 @@ sequelize
     .catch(err => {
         console.error("Unable to connect to the database:", err);
     });
+)
 
-
+app.use("/auth", authRouter);
 app.use("/api/data", dataRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/probes", probesRouter);
