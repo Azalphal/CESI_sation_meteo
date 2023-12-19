@@ -15,7 +15,14 @@ exports.create = (req, res) => {
 
 exports.findAll = (req, res) => {
      User.findAll().then((result) => res.status(200).json(result));
+};
 
+exports.findLast = (req, res) => {
+    // chatgtp here
+};
+
+exports.findOrCreate = (req, res) => {
+    User.findOrCreate({ where: { username: }})
 };
 
 exports.findOne = (req, res) => {
