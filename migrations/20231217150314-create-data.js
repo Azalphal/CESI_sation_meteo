@@ -10,13 +10,13 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       humidity: {
-        type: Sequelize.INTEGER
+        type: Sequelize.FLOAT
       },
       temperature: {
-        type: Sequelize.INTEGER
+        type: Sequelize.FLOAT
       },
       pressure: {
-        type: Sequelize.INTEGER
+        type: Sequelize.FLOAT
       },
       position: {
         type: Sequelize.STRING
