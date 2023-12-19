@@ -40,8 +40,16 @@ app.use("/api/probes", probesRouter);
 app.use("/api/docs", swaggerUi.serve);
 app.get("/api/docs", swaggerUi.setup(swaggerDocument));
 
+app.get('/historique.html', (req, res) => {
+    res.sendFile(path.join(__dirname, "public/views", "historique.html"));
+});
+
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, "public/views", "login.html"));
+    res.sendFile(path.join(__dirname, "public/views", "acceuil.html"));
+});
+
+app.get('/carte.html', (req, res) => {
+    res.sendFile(path.join(__dirname, "public/views", "carte.html"));
 });
 
 module.exports = app;
