@@ -1,30 +1,53 @@
-var map = L.map('map').setView([48.858844, 2.294350], 13);
+function sendRequest() {
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
 
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: '© OpenStreetMap contributors'
-                }).addTo(map);
+        xhr.open("GET", "http://127.0.0.1:3000/api/data/last");
+        xhr.responseType = "json";
 
-                var probeLocation = [48.858844, 2.294350];
-                var probeMarker = L.marker(probeLocation).addTo(map);
-                probeMarker.bindPopup("Emplacement de la sonde").openPopup();
+        xhr.onload = () => {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                const data = xhr.response;
+                resolve(data); // resolve the promise with data
+            } else {
+                const error = `Error: ${xhr.status}`;
+                reject(error); // reject promise with an error
+            }
+        };
 
-                // Exemple de cercle autour de la sonde
-                var circle = L.circle(probeLocation, {
-                    color: 'red',
-                    fillColor: '#f03',
-                    fillOpacity: 0.5,
-                    radius: 200 // en mètres
-                }).addTo(map);
+        xhr.send();
+    });
+}
 
-                var mymap = L.map('map').setView([48.8534, 2.3488], 13);
+async function apiCall() {
+    try {
+        const data = await sendRequest();
+        return data.position;
+    } catch (error) {
+        console.error(error);
+        return [0, 0]; // default values in case of an error
+    }
+}
 
-                L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-                    attribution: '',
-                    maxZoom: 18,
-                    id: 'mapbox/streets-v11',
-                    tileSize: 512,
-                    zoomOffset: -1,
-                    accessToken: 'pk.eyJ1IjoicGF1bG9wZXJzIiwiYSI6ImNrZ2Z2b2Z6ZjBjZm0ycW1yZ2Z6Z2J6Z2gifQ.5Z4Z3Z3Z3Z3Z3Z3Z3Z3Z3w'
-                }).addTo(mymap);
+async function initMap() {
+    var probeLocation = JSON.parse( await apiCall() ); // parse string (format "[123, 123]")
 
-                var marker = L.marker([48.8534, 2.3488]).addTo(mymap);
+    var map = L.map('map').setView(probeLocation, 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    var probeMarker = L.marker(probeLocation).addTo(map);
+    probeMarker.bindPopup("Emplacement de la sonde").openPopup();
+
+    // Example of a circle around the probe
+    var circle = L.circle(probeLocation, {
+        color: 'red',
+        fillColor: '#f03',
+        fillOpacity: 0.5,
+        radius: 200 // in meters
+    }).addTo(map);
+}
+
+initMap();
