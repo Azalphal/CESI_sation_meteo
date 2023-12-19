@@ -14,7 +14,7 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-     User.findAll().then((result) => res.status(200).json(result));
+    User.findAll().then((result) => res.status(200).json(result));
 };
 
 exports.findLast = (req, res) => {
@@ -22,7 +22,7 @@ exports.findLast = (req, res) => {
 };
 
 exports.findOrCreate = (req, res) => {
-    User.findOrCreate({ where: { username: }})
+    User.findOrCreate({ where: { username: req.body.username}})
 };
 
 exports.findOne = (req, res) => {

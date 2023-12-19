@@ -32,7 +32,6 @@ sequelize
     .catch(err => {
         console.error("Unable to connect to the database:", err);
     });
-)
 
 app.use("/auth", authRouter);
 app.use("/api/data", dataRouter);
