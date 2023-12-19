@@ -3,7 +3,8 @@ function sendRequest() {
     return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
 
-        xhr.open("GET", "http://127.0.0.1:3000/api/data/last");
+        xhr.open("GET", window.location.origin + "/api/data/last");
+        xhr.withCredentials=true;
         xhr.responseType = "json";
 
         xhr.onload = () => {
