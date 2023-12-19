@@ -18,14 +18,20 @@ const OIDC = Issuer.discover('http://localhost:8080/realms/master')
 
         passport.use(
             'oidc',
-            new Strategy({ client }, (tokenSet, userinfo, done) => {
-                return done(null, tokenSet.claims());
+            new Strategy({ client, params : { scope: 'openid profile email'} }, (tokenSet, userinfo, done) => {
+                return done(null, {userinfo, claims: tokenSet.claims()});
             })
         );
 
         // handles serialization and deserialization of authenticated user
         passport.serializeUser((oidcUser, done) => {
-            User.findOrCreate({where: {username: oidcUser.preferred_username}}).then((result) => done(null, result));
+//            done(null, oidcUser);
+            User.findOne({where: {email: oidcUser.userinfo.email}, rejectOnEmpty: true})
+                .then((result) => done(null, result))
+                .catch(() =>
+                    User.build({username: oidcUser.userinfo.email, email: oidcUser.userinfo.email})
+                        .save()
+                        .then(result => done(null, result)));
         });
 
         passport.deserializeUser((user, done) => {
