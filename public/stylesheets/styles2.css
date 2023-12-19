@@ -79,6 +79,16 @@ canvas {
     text-shadow: 2px 2px 2px #2980b9; /* Décalage horizontal, décalage vertical, flou et couleur */
 }
 
+@media screen and (max-width: 725px) {
+    .temparature {
+        font-size: 40px;
+    }
+
+    .humidity {
+        font-size: 18px;
+    }
+}
+
 .humidity {
     font-size: 36px;
     font-weight: bold;
@@ -87,16 +97,6 @@ canvas {
     margin-top: auto; /* Espacem ent entre la température et l'humidité */
     margin-bottom: auto; /* Espacement entre l'humidité et le bouton de partage */
 }
-
-@media screen and (min-width: 7680px) {
-    .widget-box {
-        flex-direction: row;
-        align-items: flex-start;
-        justify-content: space-between;
-    }
-}
-
-
 
 .tab-container {
     display: flex;
