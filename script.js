@@ -44,4 +44,12 @@ document.addEventListener("DOMContentLoaded", function () {
     window.shareData = function () {
         alert("Données partagées !");
     };
+
+
+
+
+
+    
 });
+
+

@@ -1,3 +1,4 @@
+
 body {
     font-family: 'Arial', sans-serif;
     margin: 0;
@@ -6,7 +7,7 @@ body {
 }
 
 .container {
-    max-width: 800px;
+    max-width: 500px;
     margin: 20px auto;
     padding: 20px;
     background-color: #fff;
@@ -20,6 +21,9 @@ body {
     border-radius: 10px;
     margin-bottom: 20px;
     color: #fff;
+    background-image: url(cie.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 #weather-widget {
@@ -28,14 +32,24 @@ body {
 
 .widget-box {
     border: 2px solid #2980b9;
-    padding: 15px;
-    border-radius: 8px;
-    background-color: #fff;
-    background-image: url(cie.jpg);
+    padding: 5px;
+    border-radius: 500px;
+    background-color: #00000000;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Aligner le contenu au centre sur les petits écrans */
+    
+}
 
+.blur {
+    filter: blur(50px);
+    -webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -o-filter: blur(5px);
+    -ms-filter: blur(5px);
 }
 
 canvas {
@@ -57,3 +71,87 @@ canvas {
 #shareButton:hover {
     background-color: #27ae60;
 }
+
+.temperature {
+    font-size: 80px;
+    font-weight: bold;
+    margin: 0;
+    text-shadow: 2px 2px 2px #2980b9; /* Décalage horizontal, décalage vertical, flou et couleur */
+}
+
+.humidity {
+    font-size: 36px;
+    font-weight: bold;
+    text-shadow: 2px 2px 2px #2980b9; /* Décalage horizontal, décalage vertical, flou et couleur */
+    align-self: center; /* Aligner le contenu à droite sur les petits écrans */
+    margin-top: auto; /* Espacem ent entre la température et l'humidité */
+    margin-bottom: auto; /* Espacement entre l'humidité et le bouton de partage */
+}
+
+@media screen and (min-width: 7680px) {
+    .widget-box {
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: space-between;
+    }
+}
+
+
+
+.tab-container {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+    background-color: #468ea9;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #456b99;
+}
+
+.tab-content {
+    display: none;
+}
+
+.widget-container {
+    /* Ajoutez votre style pour le widget ici */
+}
+
+#weather-widget {
+    /* Ajoutez votre style pour le widget ici */
+}
+
+.widget-box {
+    /* Ajoutez votre style pour la boîte du widget ici */
+}
+
+.temperature, .humidity {
+    /* Ajoutez votre style pour la température et l'humidité ici */
+}
+
+#chart-container {
+    /* Ajoutez votre style pour le conteneur du graphique ici */
+}
+
+#shareButton {
+    padding: 10px;
+    cursor: pointer;
+    background-color: #337ab7;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+}
+
+#shareButton:hover {
+    background-color: #286090;
+}
+
+#map { height: 180px; }
