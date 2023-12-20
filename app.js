@@ -52,7 +52,7 @@ sequelize
 OIDC.then(() => {
     app.options('*', cors(["http://localhost:3000", "http://127.0.0.1:3000"]))
     app.use("/", authRouter);
-    app.use("/api/data", ensureAuthenticatedApi, dataRouter);
+    app.use("/api/data", /*ensureAuthenticatedApi,*/ dataRouter);
     app.use("/api/users", ensureAuthenticatedApi, usersRouter);
     app.use("/api/probes", ensureAuthenticatedApi, probesRouter);
     app.use("/api/docs", swaggerUi.serve);

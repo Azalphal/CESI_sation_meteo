@@ -7,7 +7,7 @@ const OIDC = Issuer.discover('https://accounts.google.com')
     .then(issuer => {
         const client = new issuer.Client({
             client_id: "653131607313-tvd9v3174gjbq97ookoc6h4d5dvfhfml.apps.googleusercontent.com",
-            client_secret: "GOCSPX-",
+            client_secret: "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",
             redirect_uris: ['http://localhost:3000/auth/callback'],
             post_logout_redirect_uris: ['http://localhost:3000/logout/callback'],
             token_endpoint_auth_method: 'client_secret_post'

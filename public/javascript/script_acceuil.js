@@ -3,12 +3,12 @@ function sendRequest() {
     return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
 
-        xhr.open("GET", window.location.origin + "/api/data/last");
+        xhr.open("GET", "localhost:3000/api/data/last");
         xhr.withCredentials=true;
         xhr.responseType = "json";
 
         xhr.onload = () => {
-            if (xhr.readyState == 4 && xhr.status == 200) {
+            if (xhr.readyState === 4 && xhr.status === 200) {
                 const data = xhr.response;
                 resolve(data); // resolve the promise with data
             } else {
@@ -23,8 +23,7 @@ function sendRequest() {
 
 async function apiCall() {
     try {
-        const data = await sendRequest();
-        return data;
+        return await sendRequest();
     } catch (error) {
         console.error(error);
         return { temperature: 0, humidity: 0 }; // Default values in case of an error

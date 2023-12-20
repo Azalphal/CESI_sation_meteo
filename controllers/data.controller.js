@@ -18,9 +18,9 @@ exports.findAll = (req, res) => {
 };
 
 exports.findLast = (req, res) => {
-    // todo: need to check this
     Data.findAll({
         order: [['id', 'DESC']], // sort by id in descending order
+        limit: 1,
     })
         .then((result) => {
             if (result) {
