@@ -36,8 +36,8 @@ async function updateMeteoWidget() {
         const data = await apiCall(); // make apiCall
 
         // update widget values
-        document.getElementById('tempValue').innerText = data.temperature;
-        document.getElementById('humidityValue').innerText = data.humidity;
+        document.getElementById('tempValue').innerText = data.temperature+"°C";
+        document.getElementById('humidityValue').innerText = data.humidity+"% humidité";
 
     } catch (error) {
         console.error(error);
