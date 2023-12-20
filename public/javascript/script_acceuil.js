@@ -24,7 +24,7 @@ function sendRequest() {
 async function apiCall() {
     try {
         const data = await sendRequest();
-        return { temperature: data.temperature, humidity: data.humidity };
+        return data;
     } catch (error) {
         console.error(error);
         return { temperature: 0, humidity: 0 }; // Default values in case of an error
